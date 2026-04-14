@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <title>BCD_OS_TERMINAL</title>
+    <title>BCD_3_DATABASE</title>
     <style>
         :root { 
             --neon-green: #00ff41; 
@@ -22,168 +22,130 @@
             text-shadow: 0 0 5px var(--neon-green);
         }
 
-        /* Эффект ЭЛТ-монитора */
-        .crt { position: relative; border: 3px solid #222; padding: 15px; background: rgba(0, 10, 0, 0.8); box-shadow: inset 0 0 20px #000; }
+        .crt { position: relative; border: 3px solid #222; padding: 20px; background: rgba(0, 10, 0, 0.9); box-shadow: inset 0 0 30px #000; }
         .crt::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px);
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px);
             pointer-events: none; z-index: 10;
         }
 
-        h1 { font-size: 14px; text-align: center; color: var(--neon-cyan); text-shadow: 0 0 8px var(--neon-cyan); border-bottom: 2px dashed var(--neon-green); padding-bottom: 10px; margin-bottom: 20px; }
+        h1 { font-size: 16px; text-align: center; color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); margin-bottom: 20px; }
+        
+        .header-info { border: 2px solid var(--neon-green); padding: 15px; margin-bottom: 30px; background: rgba(0,255,65,0.05); }
+        .status-line { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 11px; }
+        .blink { animation: blinker 1s linear infinite; color: var(--neon-yellow); }
+        @keyframes blinker { 50% { opacity: 0; } }
 
-        /* Стили выпадающих списков */
-        details { border: 1px solid var(--dark-green); margin-bottom: 15px; padding: 5px; background: rgba(0,255,65,0.02); }
-        summary { 
-            color: var(--neon-yellow); text-shadow: 0 0 5px var(--neon-yellow); 
-            cursor: pointer; font-size: 11px; padding: 10px; list-style: none; outline: none; border-bottom: 1px solid transparent;
-            transition: all 0.2s ease;
+        .links-container { margin: 20px 0; display: flex; gap: 15px; flex-wrap: wrap; }
+        .link-box { 
+            text-decoration: none; padding: 10px; border: 1px solid var(--neon-green); 
+            color: var(--neon-green); transition: all 0.3s ease; 
         }
-        summary::-webkit-details-marker { display: none; }
+        .link-box.tg { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+        .link-box.ds { border-color: var(--neon-yellow); color: var(--neon-yellow); }
+
+        .link-box:hover { color: var(--bg) !important; text-shadow: none; }
+        .link-box.tg:hover { background: var(--neon-cyan); box-shadow: 0 0 20px var(--neon-cyan); }
+        .link-box.ds:hover { background: var(--neon-yellow); box-shadow: 0 0 20px var(--neon-yellow); }
+
+        details { border: 1px solid var(--dark-green); margin-bottom: 15px; background: rgba(0,255,65,0.02); }
+        summary { 
+            color: var(--neon-yellow); cursor: pointer; padding: 12px; list-style: none; outline: none;
+            text-shadow: 0 0 5px var(--neon-yellow);
+        }
         summary::before { content: "[+] "; color: var(--neon-cyan); }
-        details[open] summary { border-bottom: 1px solid var(--dark-green); margin-bottom: 10px; }
         details[open] summary::before { content: "[-] "; color: var(--neon-red); }
 
-        /* Внутренности с анимацией */
-        .content { padding: 5px 10px; color: #fff; font-size: 9px; text-shadow: 0 0 3px rgba(255,255,255,0.5); }
-        
-        /* МАГИЯ АНИМАЦИИ */
-        details[open] .content {
-            animation: slideDown 0.35s ease-out forwards;
-            transform-origin: top;
-        }
+        .content { padding: 15px; color: #fff; font-size: 9px; animation: slideDown 0.4s ease-out; }
         @keyframes slideDown {
-            0% { opacity: 0; transform: scaleY(0.8) translateY(-10px); filter: brightness(2); }
-            100% { opacity: 1; transform: scaleY(1) translateY(0); filter: brightness(1); }
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .row { display: flex; justify-content: space-between; border-bottom: 1px dotted #113311; margin: 8px 0; padding-bottom: 4px; }
-        .lbl { color: var(--neon-green); opacity: 0.8; }
-        .val { color: #fff; text-align: right; }
-        
-        .warn { color: var(--neon-red); text-shadow: 0 0 5px var(--neon-red); }
-        .law { color: var(--neon-cyan); font-size: 8px; margin: 10px 0; padding-left: 10px; border-left: 2px solid var(--neon-cyan); line-height: 2; }
+        .law-block { border-left: 2px solid var(--neon-cyan); padding-left: 10px; margin: 15px 0; font-size: 8px; color: var(--neon-cyan); }
+        .warn { color: var(--neon-red); }
+        .val { color: var(--neon-green); }
+        .sub-title { color: var(--neon-yellow); margin-top: 10px; display: block; text-decoration: underline; }
+
     </style>
 </head>
 <body>
     <div class="crt">
-        <h1>- BEST CITY DOGE -</h1>
+        <h1>BEST CITY DOGE 3</h1>
+
+        <div class="header-info">
+            <div class="status-line">
+                <span>СОСТОЯНИЕ: <span class="blink">ОТКРЫТ</span></span>
+                <span>ОБНОВЛЕНИЕ: 1.9.1</span>
+            </div>
+            
+            <p>Добро пожаловать на проект BCD 3!</p>
+            <p style="font-size: 8px; color: #aaa;">Здесь вы играете за персонажа в стране Best City Doge. Этот мир очень проработан, что даёт вам огромную свободу для действий и творчества!</p>
+            
+            <div class="links-container">
+                <a href="https://t.me/open_bcd_3" class="link-box tg" target="_blank">TELEGRAM</a>
+                <a href="https://discord.gg/K2W23e5gJU" class="link-box ds" target="_blank">DISCORD</a>
+            </div>
+
+            <div class="law-block">
+                <span class="sub-title">Темп игры:</span> Свободный.<br>
+                <span class="sub-title">Состояние сервера:</span><br>
+                - ОТКРЫТ: Обычный режим<br>
+                - ЗАКРЫТ: Сервер не работает<br>
+                - МЕДЛЕННЫЙ: Задержки в ответах
+            </div>
+
+            <p class="warn" style="font-size: 7px;">DISCLAIMER: Всё вымышленно. Игра не призывает к действиям.</p>
+        </div>
 
         <details>
-            <summary>01_СИСТЕМА_И_ПРАВИЛА</summary>
+            <summary>МЕХАНИКИ СЕРВЕРА</summary>
             <div class="content">
-                <div class="row"><span class="lbl">СТАТУС:</span><span class="val">ОТКРЫТ</span></div>
-                <div class="row"><span class="lbl">ВЕРСИЯ:</span><span class="val">1.9.1 (Добавлен суд)</span></div>
-                <div class="law">
-                    ТЕМП ИГРЫ: Свободный (ответы от минут до дней)<br>
-                    КОДЕКСЫ BCD: Действуют внутри мира<br>
-                    ПРАВИЛА ПРОЕКТА: Обязательны (карается баном)
-                </div>
-                <div class="row"><span class="lbl">БОНУС ЗА ПРИГЛАШЕНИЕ:</span><span class="val">250.000 Dogecoins + 65% скидка</span></div>
-                <div class="row"><span class="lbl">БОНУС ПО КОДУ:</span><span class="val">550.000 Dogecoins + Телефон + FunOS</span></div>
+                <span class="sub-title">КАК ЗАРАБАТЫВАТЬ:</span>
+                • Смены: Заявки открываются на выходных. На утро/ночь есть лимиты.<br>
+                • Отчётность: После смены обязателен краткий рапорт.
+                <span class="sub-title">ТРАНСПОРТ:</span>
+                • Идентификация: Только по VIN.<br>
+                • Номера: Можно менять или снимать.
+                <span class="sub-title">ТЕХНИКА:</span>
+                • Поколения: Актуальное не совместимо с устаревшими.<br>
+                • Ресурс: Устройства могут сгорать.
             </div>
         </details>
 
         <details>
-            <summary>02_ГОС_СТРУКТУРЫ</summary>
+            <summary>ПРОФЕССИИ</summary>
             <div class="content">
-                <div class="row"><span class="lbl">СУДЬЯ:</span><span class="val">160.000 Dogecoins + 5k/дело</span></div>
-                <div class="row"><span class="lbl">ДЕПУТАТ:</span><span class="val">120.000 Dogecoins + премии</span></div>
-                <div class="row"><span class="lbl">ПРОКУРОР:</span><span class="val">90k-255k Dogecoins + премии</span></div>
-                <div class="row"><span class="lbl">ПОЧТА:</span><span class="val">112.000 Dogecoins (премия до 60k)</span></div>
-                <br>
-                <span class="warn">ГОСУДАРСТВЕННЫЙ ДЕПАРТАМЕНТ:</span>
-                <div class="law">
-                    > BPD (Police): Городская полиция (города и районы)<br>
-                    > BCSO (Sheriff): Шерифская служба (трассы, округа)<br>
-                    > DBI (Бюро): Аналитика, расследования, розыск
-                </div>
+                • <span class="val">СУДЬЯ:</span> 160.000 Dogecoins<br>
+                • <span class="val">ДЕПУТАТ:</span> 120.000 Dogecoins<br>
+                • <span class="val">ПРОКУРОР:</span> 90.000 - 255.000 Dogecoins<br>
+                • <span class="val">ПОЧТАЛЬОН:</span> 112.000 Dogecoins
             </div>
         </details>
 
         <details>
-            <summary>03_ТЕХНИКА_И_СВЯЗЬ</summary>
+            <summary>ПЕРСОНАЖ И НАВЫКИ</summary>
             <div class="content">
-                <div class="row"><span class="lbl">DOGE-PC:</span><span class="val warn">АКТУАЛ: ПОКОЛЕНИЕ 2</span></div>
-                <div class="row"><span class="lbl">ОС:</span><span class="val">FunOS / Berner / OneOS (Mobile)</span></div>
-                <br>
-                <span class="warn">ПРОВАЙДЕР ROFL:</span>
-                <div class="law">
-                    СИМ-КАРТА: 250 Dogecoins | СМЕНА: 500 | КАСТОМ: 7.500<br>
-                    РОУТЕР: 4.000 Dogecoins<br>
-                    МОБИЛЬНЫЙ ИНТЕРНЕТ: 800 Dogecoins/мес<br>
-                    ДОМАШНИЙ ИНТЕРНЕТ: 2.000 Dogecoins/мес
-                </div>
-                <span class="warn">ПРОВАЙДЕР DOLIGHT:</span>
-                <div class="law">
-                    СИМ-КАРТА: 300 Dogecoins | СМЕНА: 600 | КАСТОМ: 9.500<br>
-                    РОУТЕР: 6.000 Dogecoins<br>
-                    МОБИЛЬНЫЙ ИНТЕРНЕТ: 1.000 Dogecoins/мес<br>
-                    ДОМАШНИЙ ИНТЕРНЕТ: 3.000 Dogecoins/мес
-                </div>
-                <br>
-                <span class="warn">СЕРВЕРЫ (20 ИСХОДНЫХ):</span>
-                <div class="law">
-                    > БАЗОВЫЙ: 1.500.000 Dogecoins (Аренда: 50.000/нед)<br>
-                    > ПРОДВИНУТЫЙ: 2.650.000 Dogecoins (Аренда: 100.000/нед)<br>
-                    > КОРПОРАТИВНЫЙ: 6.000.000 Dogecoins (Аренда: 250.000/нед)<br>
-                    <span style="color:var(--neon-yellow);">[+] ДОП. IP АДРЕС: Покупка 30.000 / Аренда 1.500/нед</span>
-                </div>
+                Очков на старте: <span class="val">30</span><br><br>
+                <span class="sub-title">НАВЫКИ:</span>
+                • Сила (ур.4): -25% времени на работах<br>
+                • Выносливость (ур.4): +1 смена без отдыха<br>
+                • Мастерство (ур.5): Гуру ремонта
             </div>
         </details>
 
         <details>
-            <summary>04_БИЗНЕС_И_ЭКОНОМИКА</summary>
-            <div class="content">
-                <div class="row"><span class="lbl">РЕГ. БИЗНЕСА:</span><span class="val">150.000 Dogecoins</span></div>
-                <div class="row"><span class="lbl">ИЗМЕНЕНИЯ:</span><span class="val">50.000 Dogecoins</span></div>
-                <div class="row"><span class="lbl">БЕНЗИН (RAD):</span><span class="val">30 Dogecoins / Литр</span></div>
-                <div class="row"><span class="lbl">ЭЛЕКТРИЧЕСТВО:</span><span class="val">10-20 Dogecoins / кВтч</span></div>
-                <br>
-                <span class="warn">АКТИВНЫЕ КОРПОРАЦИИ:</span>
-                <div class="law">Berner, Cerberus, Styx, Cascade, Gensan, Kraken, Hero, Grind, Troyan, Tech, Raptor, Creato, Fun, One, DOGE-PC, RAD, Rofl Provider, Dolight, Ogorodnik, Lanfiatta, Micro10 Studios</div>
+            <summary>КОМПАНИИ</summary>
+            <div class="content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                <div>• Berner</div><div>• Cerberus</div>
+                <div>• Styx</div><div>• Cascade</div>
+                <div>• Gensan</div><div>• Kraken</div>
+                <div>• DOGE-PC</div><div>• RAD</div>
+                <div>• Micro10 Studios</div>
             </div>
         </details>
 
-        <details>
-            <summary>05_ПЕРСОНАЖ_И_НАВЫКИ</summary>
-            <div class="content">
-                <div class="row"><span class="lbl">ОЧКОВ НА СТАРТЕ:</span><span class="val">30</span></div>
-                <span class="warn">СТАРТОВЫЕ ПЕРКИ (НА ВЫБОР):</span>
-                <div class="law">
-                    > Стартовый капитал (3.000.000 Dogecoins)<br>
-                    > Первое авто (До 5.500.000 Dogecoins бесплатно)<br>
-                    > Своя крыша над головой (Участок + Черновой дом)
-                </div>
-                <span class="warn">ИГРОВЫЕ НАВЫКИ:</span>
-                <div class="law">
-                    > Сила (Ур.4: Таскатель шпал -25% времени)<br>
-                    > Выносливость (Ур.4: Стальные нервы +1 смена)<br>
-                    > Мастерство (Ур.5: Гуру ремонта / Строитель века)<br>
-                    > Вождение (Ур.4: Эконом-режим / Шумахер)
-                </div>
-            </div>
-        </details>
-
-        <details>
-            <summary>06_ТЕНЕВОЙ_СЕКТОР_(VDC)</summary>
-            <div class="content">
-                <div class="row"><span class="lbl warn">ВАЛЮТА БИРЖИ:</span><span class="val warn">1 VDC = 1 Dogecoin</span></div>
-                <div class="row"><span class="lbl warn">ПРОДАЖНЫЙ ПОЛИЦЕЙСКИЙ:</span><span class="val">60.000 VDC/нед</span></div>
-                <div class="row"><span class="lbl warn">ЛЕГАЛИЗАЦИЯ VIN:</span><span class="val">250.000 VDC</span></div>
-                <br>
-                <span class="warn">ПЕРЕБИВКА VIN:</span>
-                <div class="law">
-                    > Кустарная: 80.000 VDC (15% шанс провала)<br>
-                    > Мастерская: 160.000 VDC (8% шанс провала)<br>
-                    > Почти завод: 300.000 VDC (3% шанс провала)
-                </div>
-                <span class="warn">ФИГУРКИ (КОЛЛЕКЦИИ):</span>
-                <div class="law">Доге: 10.000 VDC | Паразит: 50.000 VDC | Монстр: 1.000.000 VDC</div>
-            </div>
-        </details>
-
-        <p style="text-align: center; color: var(--dark-green); font-size: 7px; margin-top: 30px;">SYSTEM INITIALIZED // BCD_PROTOCOL</p>
+        <p style="text-align: center; color: var(--dark-green); font-size: 7px; margin-top: 20px;">SYSTEM INITIALIZED // BCD_PROTOCOL_3</p>
     </div>
 </body>
 </html>
