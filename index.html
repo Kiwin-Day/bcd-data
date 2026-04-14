@@ -4,83 +4,92 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap' rel='stylesheet'>
-    <title>BCD_3_DATABASE</title>
+    <title>- BEST SITY DOGE -</title>
     <style>
         :root { 
-            --neon-green: #00ff41; --dark-green: #002200; --neon-cyan: #00ffff;
-            --neon-red: #ff003c; --neon-yellow: #ffea00; --bg: #010101; 
+            --neon-green: #00ff41; --green-glow: 0 0 10px #00ff41;
+            --neon-cyan: #00ffff; --cyan-glow: 0 0 10px #00ffff;
+            --neon-red: #ff003c; --red-glow: 0 0 10px #ff003c;
+            --neon-yellow: #ffea00; --yellow-glow: 0 0 10px #ffea00;
+            --bg: #030a03; 
         }
         
         body { 
             background: var(--bg); color: var(--neon-green); 
             font-family: 'Press Start 2P', monospace; 
             font-size: 9px; line-height: 1.6; margin: 0; padding: 10px; 
+            text-shadow: var(--green-glow);
+            overflow-x: hidden;
+            animation: flicker 0.15s infinite;
         }
 
-        .crt-container { border: 2px solid #222; padding: 15px; background: rgba(0, 10, 0, 0.98); }
+        /* CRT EFFECTS */
+        body::before {
+            content: ' '; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 1000; background-size: 100% 2px, 3px 100%; pointer-events: none;
+        }
+        body::after {
+            content: ' '; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+            background: rgba(18, 16, 16, 0.1); opacity: 0; z-index: 1001;
+            pointer-events: none; animation: fuzz 0.1s infinite;
+        }
+        @keyframes flicker { 0% { opacity: 0.99; } 100% { opacity: 1; } }
+        
+        .main-frame { border: 2px solid var(--neon-green); padding: 15px; background: rgba(0, 15, 0, 0.9); box-shadow: inset var(--green-glow), var(--green-glow); position: relative; }
 
         /* HEADER */
-        .header-top { border: 1px solid var(--neon-green); padding: 15px; margin-bottom: 20px; position: relative; }
-        .blink { animation: flash 1s infinite; color: var(--neon-yellow); }
+        .header-box { border: 1px solid var(--neon-cyan); padding: 15px; margin-bottom: 20px; box-shadow: var(--cyan-glow); text-shadow: var(--cyan-glow); color: var(--neon-cyan); }
+        .blink { animation: flash 1s infinite; color: var(--neon-yellow); text-shadow: var(--yellow-glow); }
         @keyframes flash { 50% { opacity: 0; } }
 
         .btn-row { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
         .btn { 
             text-decoration: none; padding: 8px; border: 1px solid var(--neon-green); 
-            color: var(--neon-green); font-size: 7px; transition: 0.3s;
+            color: var(--neon-green); font-size: 7px; transition: 0.2s; box-shadow: var(--green-glow);
         }
-        .btn:hover { background: var(--neon-green); color: var(--bg); box-shadow: 0 0 10px var(--neon-green); }
+        .btn:hover { background: var(--neon-green); color: var(--bg); text-shadow: none; }
 
-        /* ACCORDION ANIMATION */
-        details { border: 1px solid var(--dark-green); margin-bottom: 10px; overflow: hidden; }
-        summary { 
-            padding: 15px; cursor: pointer; color: var(--neon-cyan); outline: none; list-style: none;
-            display: flex; justify-content: space-between; background: rgba(0,255,65,0.02);
-        }
+        /* ACCORDION */
+        details { border: 1px solid var(--dark-green); margin-bottom: 10px; box-shadow: 0 0 5px rgba(0,255,65,0.2); }
+        summary { padding: 15px; cursor: pointer; color: var(--neon-cyan); outline: none; list-style: none; display: flex; justify-content: space-between; text-shadow: var(--cyan-glow); }
         summary::after { content: '[+]'; }
-        details[open] summary::after { content: '[-]'; color: var(--neon-red); }
-
-        .content { 
-            padding: 0 15px 15px; 
-            opacity: 0; transform: translateY(-10px);
-            transition: all 0.4s ease-out;
-        }
+        details[open] summary::after { content: '[-]'; color: var(--neon-red); text-shadow: var(--red-glow); }
+        .content { padding: 0 15px 15px; opacity: 0; transform: translateY(-5px); transition: 0.3s ease-out; }
         details[open] .content { opacity: 1; transform: translateY(0); }
 
-        /* ВАКАНСИИ СТИЛЬ */
-        .title { color: var(--neon-yellow); display: block; margin: 15px 0 5px; text-decoration: underline; font-size: 10px; }
-        .req-box { border-left: 3px solid var(--neon-cyan); padding-left: 10px; margin: 10px 0; background: rgba(0,255,255,0.03); padding-top: 5px; padding-bottom: 5px; }
-        .salary-tag { color: var(--neon-green); background: rgba(0,255,65,0.1); padding: 4px; display: inline-block; margin: 5px 0; border: 1px solid var(--dark-green); }
-        .val { color: #fff; }
+        /* ВАКАНСИИ И НАВЫКИ */
+        .title { color: var(--neon-yellow); text-shadow: var(--yellow-glow); display: block; margin: 15px 0 5px; text-decoration: underline; font-size: 10px; }
+        .req-box { border-left: 3px solid var(--neon-cyan); padding-left: 10px; margin: 10px 0; background: rgba(0,255,255,0.05); box-shadow: var(--cyan-glow); padding-top: 5px; padding-bottom: 5px; }
+        .salary { color: var(--neon-green); font-weight:bold; }
+        .val { color: #fff; text-shadow: 0 0 5px #fff; }
 
         /* BRANDS */
-        .brand-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .brand-card { border-bottom: 1px dotted var(--dark-green); padding: 5px 0; }
+        .brands { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .brand { border-bottom: 1px dotted var(--dark-green); padding: 5px 0; }
 
-        /* ASCII DOGE ANIMATION */
-        .doge-ascii { 
-            white-space: pre; font-family: monospace; font-size: 6px; 
-            text-align: center; margin: 20px 0; color: var(--neon-yellow);
-            animation: breathe 2s infinite ease-in-out;
-        }
-        @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.05); opacity: 1; } }
+        /* MATRIX DOGE ANIMATION */
+        .doge-container { position: relative; width: 100%; text-align: center; margin: 30px 0; height: 60px; color: var(--neon-yellow); text-shadow: var(--yellow-glow); }
+        .doge-ascii { white-space: pre; font-family: monospace; font-size: 7px; position: absolute; left: 50%; transform: translateX(-50%); z-index: 2; }
+        .matrix-bg { white-space: pre; font-family: monospace; font-size: 6px; position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0.15; z-index: 1; animation: matrixShift 0.5s infinite linear; overflow: hidden; }
+        @keyframes matrixShift { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 
-        .legal-box { border: 1px solid var(--neon-red); padding: 12px; color: #ff9999; font-size: 7px; margin-top: 20px; line-height: 1.4; text-align: justify; }
+        .legal { border: 1px solid var(--neon-red); padding: 12px; color: #ff9999; font-size: 7px; margin-top: 25px; box-shadow: var(--red-glow); text-shadow: var(--red-glow); line-height: 1.4; text-align: justify; }
 
     </style>
 </head>
 <body>
-    <div class='crt-container'>
-        <div class='header-top'>
+    <div class='main-frame'>
+        <div class='header-box'>
             <h1 style='text-align: center; font-size: 12px; margin: 0 0 10px 0;'>BCD 3 CENTRAL DATABASE</h1>
             <div style='display: flex; justify-content: space-between; font-size: 8px;'>
-                <span>СЕРВЕР: <span class='blink'>МЕДЛЕННЫЙ РЕЖИМ</span></span>
-                <span>Обновление: Обновление 1.9.1</span>
+                <span>СЕРВЕР: <span class='blink'>ОТКРЫТ</span></span>
+                <span>ОБНОВЛЕНИЕ: 1.9.1</span>
             </div>
-            <p style='font-size: 7px; margin-top: 15px; color: #aaa;'>Добро пожаловать на проект BCD 3. Здесь вы играете за персонажа в стране Best City Doge. Огромная свобода действий и проработанный мир.</p>
+            <p style='font-size: 7px; margin-top: 15px; color: #aaa; text-shadow: none;'>Добро пожаловать. Свобода действий и проработанный мир Best City Doge. Протоколы механик ниже.</p>
             <div class='btn-row'>
-                <a href='https://t.me/open_bcd_3' class='btn' target='_blank'>TELEGRAM КАНАЛ</a>
-                <a href='https://discord.gg/K2W23e5gJU' class='btn' target='_blank'>DISCORD СЕРВЕР</a>
+                <a href='https://t.me/open_bcd_3' class='btn' target='_blank'>TG КАНАЛ</a>
+                <a href='https://discord.gg/K2W23e5gJU' class='btn' target='_blank'>DS СЕРВЕР</a>
             </div>
         </div>
 
@@ -88,14 +97,14 @@
             <summary>01_МЕХАНИКИ_СЕРВЕРА</summary>
             <div class='content'>
                 <span class='title'>СМЕНЫ И ДОХОД</span>
-                - Заявки на неделю открываются на выходных.<br>
-                - Утро/Ночь: ограниченные места. День: безлимит.<br>
-                - После смены обязателен краткий рапорт.<br>
+                - Заявки принимаются на выходных.<br>
+                - Утро/Ночь: лимитированы. День: безлимит.<br>
+                - Краткий рапорт обязателен после смены.<br>
                 <span class='title'>ТРАНСПОРТ</span>
-                - Идентификация только по <span class='val'>VIN-коду</span>. Номера — сменная деталь.<br>
+                - Идентификация только по <span class='val'>VIN-коду</span>.<br>
                 <span class='title'>ТЕХНИКА DOGE-PC</span>
-                - Актуальное поколение (BCD 3) несовместимо с версиями BCD 1/2.<br>
-                - Износ: техника требует обслуживания в сервис-центрах DOGE-PC.<br>
+                - <span class='val'>Актуальное поколение</span> несовместимо с устаревшим.<br>
+                - Требует обслуживания в DOGE-PC.<br>
                 <span class='title'>СЕТЕВЫЕ ПРОТОКОЛЫ</span>
                 - 1 SIM = 1 Номер. Серверы активны только при линковке к Исходному узлу.
             </div>
@@ -106,33 +115,22 @@
             <div class='content'>
                 <span class='title'>ДЕПУТАТ</span>
                 <div class='req-box'>Требования: 30 дней в стране, 13+ лет, без судимостей.</div>
-                - Обязанности: законопроекты, дебаты, встречи, решение соц. проблем.<br>
-                <div class='salary-tag'>Зарплата: 120.000 Dogecoins + премии до 120.000 Dogecoins</div>
+                - Обязанности: законопроекты, дебаты, встречи.<br>
+                <span class='salary'>Зарплата: 120.000 Dogecoins + премии</span>
 
                 <span class='title'>ПРОКУРОР</span>
-                <div class='req-box'>Требования: 7 дней, 13+ лет, честность, аналитика.</div>
-                - Обязанности: надзор за законом, уголовное преследование, суды.<br>
-                <div class='salary-tag'>Зарплата: 90.000 - 255.000 Dogecoins + премии</div>
+                <div class='req-box'>Требования: 7 дней, 13+ лет, аналитика.</div>
+                - Обязанности: надзор за законом, суды.<br>
+                <span class='salary'>Зарплата: 90.000 - 255.000 Dogecoins</span>
 
                 <span class='title'>РАБОТНИК ПОЧТЫ</span>
-                - Обязанности: прием/выдача посылок, журналы, сортировка.<br>
-                <div class='salary-tag'>Зарплата: 112.000 Dogecoins + премии (до 60.000 Dogecoins)</div>
-
-                <span class='title'>СИЛОВЫЕ СТРУКТУРЫ (BPD / BCSO / DBI)</span>
-                <div class='req-box'>Требования: 3 дня, 13+ лет, дисциплина, адекватность.</div>
-                - <span class='val'>BPD:</span> Город, патруль, вызовы.<br>
-                - <span class='val'>BCSO:</span> Трассы, округа, ДТП, конвои.<br>
-                - <span class='val'>DBI:</span> Расследования, наводки, аналитика.<br>
+                - Обязанности: прием/выдача, журналы.<br>
+                <span class='salary'>Зарплата: 112.000 Dogecoins + премии</span>
 
                 <span class='title'>СУДЬЯ</span>
                 <div class='req-box'>Требования: 30 дней, 13+ лет, знание кодексов.</div>
-                - Обязанности: вердикты, толкование права, ведение дел.<br>
-                <div class='salary-tag'>Зарплата: 160.000 Dogecoins + 5.000 Dogecoins за дело</div>
-
-                <span class='title'>СПЕЦИАЛЬНЫЕ РОЛИ</span>
-                • Аналитик: 50.000 Dogecoins + премии.<br>
-                • Модератор: 90.000 Dogecoins + премии.<br>
-                • Наставник: 100.000 Dogecoins + 20.000 Dogecoins за новичка.
+                - Обязанности: вердикты, толкование права.<br>
+                <span class='salary'>Зарплата: 160.000 Dogecoins + дела</span>
             </div>
         </details>
 
@@ -140,78 +138,69 @@
             <summary>03_ПЕРСОНАЖ_И_НАВЫКИ</summary>
             <div class='content'>
                 <div class='req-box'>
-                    - Очки на старте: <span class='val'>30</span><br>
                     - Капитал: <span class='val'>3.000.000 Dogecoins</span><br>
-                    - Авто: Любое до <span class='val'>5.500.000 Dogecoins</span><br>
-                    - Жилье: Земельный участок + дом.
+                    - Авто: До <span class='val'>5.500.000 Dogecoins</span><br>
+                    - Очки навыков: <span class='val'>30</span>
                 </div>
                 <span class='title'>НАВЫКИ:</span>
                 • <span class='val'>Сила (ур.4):</span> -25% времени на физ. работах.<br>
                 • <span class='val'>Выносливость (ур.4):</span> +1 смена без отдыха.<br>
-                • <span class='val'>Мастерство (ур.5):</span> Шанс починки + бонус к стройке.<br>
-                • <span class='val'>Вождение (ур.4):</span> Улучшенное управление и расход.
+                • <span class='val'>Мастерство (ур.5):</span> Бонус к ремонту и стройке.<br>
+                • <span class='val'>Вождение (ур.4):</span> Лучший зацеп и расход.
             </div>
         </details>
 
         <details>
             <summary>04_КОРПОРАЦИИ_И_БРЕНДЫ</summary>
-            <div class='content brand-list'>
-                <div class='brand-card'><span class='val'>Berner</span> - Гаджеты</div>
-                <div class='brand-card'><span class='val'>Cerberus</span> - Софт</div>
-                <div class='brand-card'><span class='val'>Styx</span> - Охлаждение</div>
-                <div class='brand-card'><span class='val'>Cascade</span> - Хабы</div>
-                <div class='brand-card'><span class='val'>Gensan</span> - Энерго</div>
-                <div class='brand-card'><span class='val'>Kraken</span> - Добыча</div>
-                <div class='brand-card'><span class='val'>DOGE-PC</span> - ПК</div>
-                <div class='brand-card'><span class='val'>Micro10</span> - ОС</div>
-                <div class='brand-card'><span class='val'>Ogorodnik</span> - Агро</div>
-                <div class='brand-card'><span class='val'>Lanfiatta</span> - Авто</div>
-                <div class='brand-card'><span class='val'>Raptor</span> - Системы</div>
-                <div class='brand-card'><span class='val'>Grind</span> - Техника</div>
-                <div class='brand-card'><span class='val'>Troyan</span> - Безопасность</div>
-                <div class='brand-card'><span class='val'>RAD</span> - Спец. решения</div>
-                <div class='brand-card'><span class='val'>Creato</span> - Дизайн</div>
-                <div class='brand-card'><span class='val'>One</span> - Связь</div>
+            <div class='content brands'>
+                <div class='brand'><span class='val'>Berner</span> - Персональные копмьтеры и софт</div>
+                <div class='brand'><span class='val'>Cerberus</span> - Техника и авто</div>
+                <div class='brand'><span class='val'>DOGE-PC</span> - Магазин техники</div>
+                <div class='brand'><span class='val'>Micro10 Studios</span> - Игры</div>
+                <div class='brand'><span class='val'>Ogorodnik</span> - Авто</div>
+                <div class='brand'><span class='val'>RAD</span> - Сеть заправок</div>
             </div>
         </details>
 
-        <div class='doge-ascii'>
+        <div class='doge-container'>
+            <div class='matrix-bg' id='matrixDoge'></div>
+            <div class='doge-ascii'>
    __      _
  o'')}____//
   `      /
   (_(_/-(_/
-BCD 3 PROTOCOL
+BCD OS SECURE
+            </div>
         </div>
 
-        <div class='legal-box'>
-            <strong>LEGAL DISCLAIMER:</strong> Всё вышеуказанное является игровым вымыслом проекта BCD 3. Организации, валюта (Dogecoins) и законы не имеют отношения к реальности. Администрация не несет ответственности за действия игроков вне платформы.
+        <div class='legal'>
+            <strong>LEGAL DISCLAIMER:</strong> Всё является игровым вымыслом проекта BCD 3. Организации, валюта и законы вымышлены. Администрация не несет ответственности за действия игроков вне платформы.
         </div>
         
-        <p style='text-align: center; font-size: 6px; opacity: 0.3;'>TERMINAL_ID: BCD-CORE-1.9.1</p>
+        <p style='text-align: center; font-size: 6px; opacity: 0.3; text-shadow: none;'>TERMINAL_ID: BCD-CORE-VIBE-1.9.1</p>
     </div>
 
     <script>
-        // Скрипт для плавной анимации закрытия/открытия
-        document.querySelectorAll('details').forEach((el) => {
-            const summary = el.querySelector('summary');
-            const content = el.querySelector('.content');
+        // Анимация фона Matrix Doge
+        const matrixContainer = document.getElementById('matrixDoge');
+        const chars = '01AZ$/\|_-+=. ';
+        const rows = 5;
+        const cols = 40;
 
-            summary.addEventListener('click', (e) => {
-                if (el.open) {
-                    e.preventDefault();
-                    content.style.opacity = '0';
-                    content.style.transform = 'translateY(-10px)';
-                    setTimeout(() => { el.open = false; }, 400);
-                } else {
-                    content.style.opacity = '0';
-                    content.style.transform = 'translateY(-10px)';
-                    setTimeout(() => {
-                        content.style.opacity = '1';
-                        content.style.transform = 'translateY(0)';
-                    }, 10);
+        function generateMatrix() {
+            let output = '';
+            for (let r = 0; r < rows; r++) {
+                let line = '';
+                for (let c = 0; c < cols; c++) {
+                    line += chars[Math.floor(Math.random() * chars.length)];
                 }
-            });
-        });
+                output += line + '\n';
+            }
+            matrixContainer.textContent = output;
+        }
+
+        generateMatrix();
+        setInterval(generateMatrix, 100); // Быстрая смена символов (шум)
     </script>
 </body>
 </html>
