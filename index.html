@@ -4,169 +4,184 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap' rel='stylesheet'>
-    <title>BCD_3_ULTRA_DATABASE</title>
+    <title>BCD_3_OFFICIAL_DATABASE</title>
     <style>
         :root { 
             --neon-green: #00ff41; 
-            --dark-green: #003300;
+            --dark-green: #003b00;
             --neon-cyan: #00ffff;
             --neon-red: #ff003c;
             --neon-yellow: #ffea00;
-            --bg: #050505; 
+            --bg: #020202; 
         }
         
         body { 
             background: var(--bg); color: var(--neon-green); 
             font-family: 'Press Start 2P', monospace; 
             font-size: 10px; line-height: 1.6; margin: 0; padding: 10px; 
-            text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+            text-shadow: 0 0 5px rgba(0, 255, 65, 0.4);
         }
 
-        .crt-frame { border: 2px solid #333; padding: 15px; background: rgba(0, 5, 0, 0.95); position: relative; overflow: hidden; }
+        .main-container { border: 2px solid #222; padding: 15px; background: rgba(0, 8, 0, 0.98); box-shadow: 0 0 20px #000; }
         
-        /* Заголовок и Статус */
-        .top-bar { border-bottom: 2px solid var(--neon-green); padding-bottom: 15px; margin-bottom: 20px; }
-        .blink-status { animation: pulse 1.5s infinite; color: var(--neon-yellow); }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        /* Fixed Header */
+        .fixed-header { border-bottom: 2px solid var(--neon-green); padding-bottom: 15px; margin-bottom: 25px; }
+        .blink { animation: flash 1s infinite; color: var(--neon-yellow); }
+        @keyframes flash { 50% { opacity: 0; } }
 
-        /* Ссылки с эффектом инверсии */
-        .links { display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; }
-        .link-btn { 
+        /* Links Section */
+        .nav-links { display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; }
+        .btn { 
             text-decoration: none; padding: 10px; border: 1px solid var(--neon-green); 
-            color: var(--neon-green); font-size: 8px; transition: 0.3s;
+            color: var(--neon-green); font-size: 8px; transition: 0.2s;
         }
-        .link-btn:hover { background: var(--neon-green); color: var(--bg); box-shadow: 0 0 15px var(--neon-green); }
-        .link-btn.ds:hover { background: var(--neon-yellow); color: var(--bg); border-color: var(--neon-yellow); box-shadow: 0 0 15px var(--neon-yellow); }
+        .btn:hover { background: var(--neon-green); color: var(--bg); box-shadow: 0 0 15px var(--neon-green); }
+        .btn.ds:hover { background: var(--neon-yellow); color: var(--bg); border-color: var(--neon-yellow); }
 
-        /* Блоки и Анимация открытия */
-        details { border: 1px solid var(--dark-green); margin-bottom: 10px; transition: 0.3s; }
+        /* Animated Blocks */
+        details { border: 1px solid var(--dark-green); margin-bottom: 12px; transition: 0.3s; background: rgba(0,255,65,0.02); }
         summary { 
             padding: 15px; cursor: pointer; color: var(--neon-cyan); outline: none; list-style: none;
-            border-bottom: 1px solid transparent; transition: 0.3s;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        details[open] summary { border-bottom: 1px solid var(--dark-green); color: var(--neon-yellow); }
+        summary::-webkit-details-marker { display: none; }
+        summary::after { content: '[ + ]'; font-size: 8px; }
+        details[open] summary::after { content: '[ - ]'; color: var(--neon-red); }
         
         .content { 
-            padding: 15px; background: rgba(0, 20, 0, 0.3); 
-            animation: scanline 0.4s ease-out; 
+            padding: 0 15px 15px 15px; border-top: 1px solid var(--dark-green);
+            animation: expand 0.4s ease-out; 
         }
-        @keyframes scanline {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes expand { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Текстовые стили */
-        .sub-header { color: var(--neon-yellow); display: block; margin: 10px 0 5px; text-decoration: underline; }
-        .info-box { border-left: 3px solid var(--neon-cyan); padding-left: 10px; margin: 10px 0; font-size: 9px; }
-        .disclaimer { border: 1px solid var(--neon-red); padding: 10px; color: #ff99aa; font-size: 10px; margin-top: 20px; text-align: center; }
+        /* Styles for text */
+        .title { color: var(--neon-yellow); text-decoration: underline; margin-top: 15px; display: block; }
         .val { color: #fff; }
+        .req { color: var(--neon-cyan); font-size: 8px; border-left: 2px solid var(--neon-cyan); padding-left: 8px; margin: 10px 0; }
+        .salary { color: var(--neon-green); background: rgba(0,255,65,0.1); padding: 5px; display: inline-block; margin-top: 5px; }
+        
+        /* Brands Grid */
+        .brand-item { border-bottom: 1px dotted var(--dark-green); padding: 10px 0; }
+        .brand-name { color: var(--neon-yellow); font-size: 11px; }
 
-        /* Таблица компаний */
-        .company-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        .comp-card { border: 1px dotted var(--dark-green); padding: 8px; }
-
+        /* Secure Disclaimer */
+        .legal-shield { 
+            margin-top: 30px; border: 1px solid var(--neon-red); padding: 15px; 
+            font-size: 8px; color: #ff8888; text-align: justify; line-height: 1.4;
+        }
     </style>
 </head>
 <body>
-    <div class='crt-frame'>
-        <div class='top-bar'>
-            <h1 style='font-size: 14px; text-align: center;'>DATABASE BCD OS 3.0</h1>
-            <div style='display: flex; justify-content: space-between; font-size: 8px;'>
-                <span>СЕРВЕР: <span class='blink-status'>ОНЛАЙН</span></span>
-                <span>ВЕРСИЯ: 1.9.2</span>
+    <div class='main-container'>
+        <div class='fixed-header'>
+            <h1 style='text-align:center; font-size: 14px; margin: 0 0 10px 0;'>BCD 3 CENTRAL OS</h1>
+            <div style='display:flex; justify-content: space-between; font-size: 8px;'>
+                <span>STATUS: <span class='blink'>ONLINE</span></span>
+                <span>ОБНОВЛЕНИЕ: 1.9.1</span>
             </div>
         </div>
 
-        <div class='info-box'>
-            Добро пожаловать в Best City Doge! <br>
-            Этот мир проработан для полной свободы творчества. <br>
-            Большинство механик также дублируются в <span class='val'>#обучение</span>.
-        </div>
+        <p style='font-size: 9px;'>Добро пожаловать в Best City Doge 3! Мир полной свободы действий и творчества. Основные механики описаны ниже.</p>
 
-        <div class='links'>
-            <a href='https://t.me/open_bcd_3' class='link-btn'>TG КАНАЛ</a>
-            <a href='https://discord.gg/K2W23e5gJU' class='link-btn ds'>DISCORD СЕРВЕР</a>
+        <div class='nav-links'>
+            <a href='https://t.me/open_bcd_3' class='btn' target='_blank'>[ TELEGRAM ]</a>
+            <a href='https://discord.gg/K2W23e5gJU' class='btn ds' target='_blank'>[ DISCORD ]</a>
         </div>
 
         <details>
-            <summary>[ МЕХАНИКИ СЕРВЕРА ]</summary>
+            <summary>01_МЕХАНИКИ_СЕРВЕРА</summary>
             <div class='content'>
-                <span class='sub-header'>ДОХОД И СМЕНЫ:</span>
-                - Неделя делится на смены. Выбор — через заявки на выходных.<br>
-                - Лимиты: Утро/Ночь имеют ограничения по местам, День — безлимит.<br>
-                - Отчеты: После смены обязателен краткий рапорт (если требуется).<br><br>
+                <span class='title'>ЗАРАБОТОК И СМЕНЫ:</span>
+                • Неделя делится на смены. Подача заявок — на выходных.<br>
+                • Лимиты: Утренние/ночные смены ограничены по местам. Дневные — безлимит.<br>
+                • Отчетность: Обязательный краткий рапорт после каждой смены.
                 
-                <span class='sub-header'>ТРАНСПОРТ:</span>
-                - Главный ID машины — <span class='val'>VIN-код</span>. Номера можно менять/снимать, но VIN привязан к базе данных навсегда.<br><br>
-
-                <span class='sub-header'>ТЕХНИКА И ПОКОЛЕНИЯ:</span>
-                - <span class='val'>Актуальное поколение</span> несовместимо с устаревшими.<br>
-                - Устаревшие поколения совместимы между собой.<br>
-                - Ресурс: Устройства могут 'сгорать' и требовать ремонта в DOGE-PC.<br><br>
-
-                <span class='sub-header'>СВЯЗЬ И СЕРВЕРА:</span>
-                - 1 SIM = 1 Номер (номер можно сменить).<br>
-                - Серверы работают в сети только при привязке к <span class='val'>Исходному серверу</span> в основной серверной.
+                <span class='title'>ТРАНСПОРТ:</span>
+                • <span class='val'>VIN-код</span> — единственный вечный идентификатор. Номера вторичны.<br>
+                
+                <span class='title'>ТЕХНИКА (DOGE-PC):</span>
+                • Совместимость: <span class='val'>Актуальное поколение</span> НЕ работает с устаревшими.<br>
+                • Износ: Техника имеет ресурс. При поломке — ремонт или замена.<br>
+                
+                <span class='title'>СВЯЗЬ И СЕТЬ:</span>
+                • 1 SIM = 1 Номер. Номера сменные.<br>
+                • Серверы: Работают только при привязке к <span class='val'>Исходному серверу</span> в центральной серверной.
             </div>
         </details>
 
         <details>
-            <summary>[ ВАКАНСИИ И ГОС ]</summary>
+            <summary>02_ГОС_И_ВАКАНСИИ</summary>
             <div class='content'>
-                <span class='sub-header'>ГОСУДАРСТВЕННЫЙ СЕКТОР:</span>
-                • <span class='val'>СУДЬЯ:</span> 160.0k Doge (+5k за дело)<br>
-                • <span class='val'>ПРОКУРОР:</span> 90.0k - 255.0k Doge<br>
-                • <span class='val'>ДЕПУТАТ:</span> 120.0k Doge + премии<br>
-                • <span class='val'>BPD / BCSO / DBI:</span> Силовые структуры (дисциплина и отчеты).<br><br>
+                <span class='title'>ДЕПУТАТ</span>
+                <div class='req'>30 дней в стране, 13+ лет, без судимостей.</div>
+                • Обязанности: Законы, дебаты, решение проблем экономики.<br>
+                <div class='salary'>З/П: 120.000 + Премии до 120.0k</div>
 
-                <span class='sub-header'>ГРАЖДАНСКИЕ РАБОТЫ:</span>
-                • <span class='val'>МЕДИКИ:</span> Спасение жизней и выдача справок.<br>
-                • <span class='val'>ПОЧТАЛЬОН:</span> 112.0k Doge.<br>
-                • <span class='val'>СТРОИТЕЛЬ / ШАХТЕР:</span> Тяжелый физ. труд.<br>
-                • <span class='val'>ВОДИТЕЛЬ:</span> Перевозки и логистика.
+                <span class='title'>ПРОКУРОР</span>
+                <div class='req'>7 дней в стране, 13+ лет, аналитический склад ума.</div>
+                • Обязанности: Надзор за законом, обвинения в суде, контроль полиции.<br>
+                <div class='salary'>З/П: 90.000 - 255.000 + Премии</div>
+
+                <span class='title'>РАБОТНИК ПОЧТЫ</span>
+                • Обязанности: Прием/выдача посылок, журналы, сортировка.<br>
+                <div class='salary'>З/П: 112.000 + Премии (до 60k)</div>
+
+                <span class='title'>СИЛОВЫЕ СТРУКТУРЫ</span>
+                • <span class='val'>BPD:</span> Городской патруль и вызовы.<br>
+                • <span class='val'>BCSO:</span> Трассы, округа, ДТП, конвои.<br>
+                • <span class='val'>DBI:</span> Расследования, наводки, аналитика.<br>
+                <div class='req'>3 дня в стране, 13+ лет, адекватность. Собеседование обязательно.</div>
+
+                <span class='title'>СУДЬЯ</span>
+                <div class='req'>30 дней в стране, 13+ лет, знание кодексов.</div>
+                • Обязанности: Ведение судов, толкование права, вердикты.<br>
+                <div class='salary'>З/П: 160.000 + 5.0k за каждое дело</div>
+
+                <span class='title'>СПЕЦИАЛИСТЫ</span>
+                • <span class='val'>АНАЛИТИК БИРЖИ:</span> Прогнозы крипты. (50k + премии)<br>
+                • <span class='val'>МОДЕРАТОР:</span> Контроль DogeTube/WatchDoge. (90k + премии)<br>
+                • <span class='val'>НАСТАВНИК:</span> Помощь новичкам. (100k + 20k за адаптацию)
             </div>
         </details>
 
         <details>
-            <summary>[ ВАШ ПЕРСОНАЖ ]</summary>
+            <summary>03_ПЕРСОНАЖ_И_НАВЫКИ</summary>
             <div class='content'>
-                Стартовые очки навыков: <span class='val'>30</span><br><br>
-                <span class='sub-header'>БОНУСЫ НА СТАРТЕ:</span>
-                - Капитал: 3,000,000 Doge<br>
-                - Транспорт: Любое авто до 5.5 млн.<br>
-                - Жилье: Земельный участок + черновой дом.<br><br>
-
-                <span class='sub-header'>ПРОКАЧКА (Навыки):</span>
-                • <span class='val'>Сила (4 ур):</span> -25% времени на физ. работах.<br>
-                • <span class='val'>Выносливость (4 ур):</span> +1 смена без отдыха.<br>
-                • <span class='val'>Мастерство (5 ур):</span> Шанс починки техники + бонус к стройке.<br>
-                • <span class='val'>Вождение (4 ур):</span> Снижение расхода топлива / Улучшенное управление.
+                Стартовые очки: <span class='val'>30</span>. <br>
+                Капитал: <span class='val'>3.000.000 Doge</span>. <br>
+                Авто: <span class='val'>До 5.5 млн</span>.<br><br>
+                <span class='title'>НАВЫКИ:</span>
+                • <span class='val'>СИЛА:</span> Срезает 25% времени на физ. работах.<br>
+                • <span class='val'>ВЫНОСЛИВОСТЬ:</span> Позволяет брать доп. смену без отдыха.<br>
+                • <span class='val'>МАСТЕРСТВО:</span> Бонус к ремонту техники и строительству.<br>
+                • <span class='val'>ВОЖДЕНИЕ:</span> Экономия топлива и лучший зацеп.
             </div>
         </details>
 
         <details>
-            <summary>[ КОРПОРАЦИИ И БРЕНДЫ ]</summary>
+            <summary>04_БРЕНДЫ_И_КОМПАНИИ</summary>
             <div class='content'>
-                <div class='company-grid'>
-                    <div class='comp-card'><span class='val'>DOGE-PC:</span> Производство и ремонт всей цифровой техники.</div>
-                    <div class='comp-card'><span class='val'>BERNER:</span> Технологический гигант.</div>
-                    <div class='comp-card'><span class='val'>CERBERUS:</span> Безопасность и софт.</div>
-                    <div class='comp-card'><span class='val'>MICRO10:</span> Главная студия разработки ПО.</div>
-                    <div class='comp-card'><span class='val'>OGORODNIK:</span> Агропромышленный комплекс.</div>
-                    <div class='comp-card'><span class='val'>CASCADE & KRAKEN:</span> Логистика и тяжелое оборудование.</div>
-                    <div class='comp-card'><span class='val'>RAPTOR & HERO:</span> Энергетические решения.</div>
-                </div>
+                <div class='brand-item'><span class='brand-name'>BERNER</span> - Прецизионная электроника и гаджеты.</div>
+                <div class='brand-item'><span class='brand-name'>CERBERUS</span> - Кибербезопасность и защитное ПО.</div>
+                <div class='brand-item'><span class='brand-name'>STYX</span> - Системы охлаждения и экстремальное железо.</div>
+                <div class='brand-item'><span class='brand-name'>CASCADE</span> - Вычислительные хабы и нейросети.</div>
+                <div class='brand-item'><span class='brand-name'>GENSAN</span> - Тяжелое машиностроение и вольтаж.</div>
+                <div class='brand-item'><span class='brand-name'>KRAKEN</span> - Глубоководная добыча и морские технологии.</div>
+                <div class='brand-item'><span class='brand-name'>DOGE-PC</span> - Сборка кастомных ПК и серверов.</div>
+                <div class='brand-item'><span class='brand-name'>MICRO10</span> - Облачные решения и архитектура ОС.</div>
+                <div class='brand-item'><span class='brand-name'>LANFIATTA</span> - Люксовые гиперкары и тюнинг.</div>
             </div>
         </details>
 
-        <div class='disclaimer'>
-            <strong>DISCLAIMER</strong><br>
-            Всё в этом проекте вымышленно. Мы не призываем к реальным действиям. 
-            Любые совпадения случайны. <br>
-            По вопросам — пишите в поддержку!
+        <div class='legal-shield'>
+            <strong>LEGAL NOTICE & DISCLAIMER:</strong><br>
+            Данный проект (BCD 3) является исключительно продуктом художественного вымысла. Все события, персонажи, финансовые единицы (Dogecoins) и организации не имеют отношения к реальности. 
+            Игра не является финансовым инструментом и не призывает к совершению противоправных или опасных действий в реальном мире. 
+            Участие в проекте добровольно. Администрация не несет ответственности за интерпретацию игрового контента вне рамок платформы. 
+            Все права защищены протоколом BCD.
         </div>
 
-        <p style='text-align: center; font-size: 7px; opacity: 0.5; margin-top: 15px;'>BCD_PROTOCOL_v1.9.2_ACTIVE</p>
+        <p style='text-align: center; font-size: 7px; opacity: 0.3;'>TERMINAL v1.9.1 // SESSION ACTIVE</p>
     </div>
 </body>
 </html>
